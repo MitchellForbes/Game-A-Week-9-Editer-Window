@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
-
+using Unity.VisualScripting;
 
 public class StatsWindow : EditorWindow
 {
@@ -38,8 +37,6 @@ public class StatsWindow : EditorWindow
     {
         tabs = GUILayout.Toolbar(tabs, tabOptions);
 
-
-
         switch (tabs)
         {
             case 0:
@@ -62,7 +59,7 @@ public class StatsWindow : EditorWindow
         GUILayout.Label("Player Name and Description", EditorStyles.boldLabel);
 
         playerName = EditorGUILayout.TextField("Player Name", playerName);
-        description = EditorGUILayout.TextArea(description);
+        description = EditorGUILayout.TextField("Player Description", description);
 
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Next Tab"))
@@ -100,13 +97,15 @@ public class StatsWindow : EditorWindow
     private void Inventory()
     {
         GUILayout.Label("Player Inventory Page");
-
-
-
-        if (GUILayout.Button("Generate Stats"))
+        ValidInputs();
+        if (ValidInputs() == false)
         {
-            ValidInputs();
-            GenerateObject();
+            GUILayout.Label("You need a Player name and Description");
+        }
+        else if (GUILayout.Button("Generate Stats"))
+        {
+            if (ValidInputs() == true)
+                GenerateObject();
         }
 
         GUILayout.FlexibleSpace();
@@ -119,13 +118,15 @@ public class StatsWindow : EditorWindow
 
     private bool ValidInputs()
     {
-        if (string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(playerName))
         {
             Debug.LogWarning("You Must enter a name and Description");
             return false;
         }
 
+        Debug.Log("Name and Description added");
         return true;
+
     }
 
     private void GenerateObject()
