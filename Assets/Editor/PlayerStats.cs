@@ -108,11 +108,15 @@ public class StatsWindow : EditorWindow
                 GenerateObject();
         }
 
+        GUILayout.Label("Thic creates an object with stats in the object tab");
+        GUILayout.Label("Place the create object stats onto the player in the player script");
+
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Next Tab"))
         {
             tabs = 0;
         }
+
     }
 
 
@@ -120,7 +124,6 @@ public class StatsWindow : EditorWindow
     {
         if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(playerName))
         {
-            Debug.LogWarning("You Must enter a name and Description");
             return false;
         }
 
